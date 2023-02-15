@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_15loik0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+  <bpmn:process id="Process_0rm7n8d" name="Gateways - Exclusive" isExecutable="true" camunda:versionTag="v1.0">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0tu06xl</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1hktjs7" default="Flow_1ynx9q4">
+      <bpmn:incoming>Flow_0tu06xl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qk1kmt</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0gox7sr</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ynx9q4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0tu06xl" sourceRef="StartEvent_1" targetRef="Gateway_1hktjs7" />
+    <bpmn:sequenceFlow id="Flow_1qk1kmt" name="do == &#34;a&#34;" sourceRef="Gateway_1hktjs7" targetRef="do_a">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${do == "a"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0gox7sr" name="do == &#34;b&#34;" sourceRef="Gateway_1hktjs7" targetRef="do_b">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${do == "b"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ynx9q4" sourceRef="Gateway_1hktjs7" targetRef="do_c" />
+    <bpmn:endEvent id="Event_0yeyshk">
+      <bpmn:incoming>Flow_1gxosk5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1gxosk5" sourceRef="do_a" targetRef="Event_0yeyshk" />
+    <bpmn:endEvent id="Event_00ucxym">
+      <bpmn:incoming>Flow_1lj1mjn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1lj1mjn" sourceRef="do_b" targetRef="Event_00ucxym" />
+    <bpmn:endEvent id="Event_00pstlf">
+      <bpmn:incoming>Flow_1s9ihwv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1s9ihwv" sourceRef="do_c" targetRef="Event_00pstlf" />
+    <bpmn:scriptTask id="do_a" name="Do A" scriptFormat="Javascript">
+      <bpmn:incoming>Flow_1qk1kmt</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gxosk5</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println('Do A');</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="do_b" name="Do B" scriptFormat="Javascript">
+      <bpmn:incoming>Flow_0gox7sr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lj1mjn</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println('Do B');</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="do_c" name="Do C" scriptFormat="Javascript">
+      <bpmn:incoming>Flow_1ynx9q4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s9ihwv</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println('Do C');</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0rm7n8d">
+      <bpmndi:BPMNEdge id="Flow_1s9ihwv_di" bpmnElement="Flow_1s9ihwv">
+        <di:waypoint x="500" y="357" />
+        <di:waypoint x="572" y="357" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lj1mjn_di" bpmnElement="Flow_1lj1mjn">
+        <di:waypoint x="500" y="237" />
+        <di:waypoint x="572" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gxosk5_di" bpmnElement="Flow_1gxosk5">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="572" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ynx9q4_di" bpmnElement="Flow_1ynx9q4">
+        <di:waypoint x="290" y="262" />
+        <di:waypoint x="290" y="357" />
+        <di:waypoint x="400" y="357" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gox7sr_di" bpmnElement="Flow_0gox7sr">
+        <di:waypoint x="315" y="237" />
+        <di:waypoint x="400" y="237" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="328" y="213" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qk1kmt_di" bpmnElement="Flow_1qk1kmt">
+        <di:waypoint x="290" y="212" />
+        <di:waypoint x="290" y="120" />
+        <di:waypoint x="400" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="328" y="93" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tu06xl_di" bpmnElement="Flow_0tu06xl">
+        <di:waypoint x="215" y="237" />
+        <di:waypoint x="265" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="219" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1hktjs7_di" bpmnElement="Gateway_1hktjs7" isMarkerVisible="true">
+        <dc:Bounds x="265" y="212" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yeyshk_di" bpmnElement="Event_0yeyshk">
+        <dc:Bounds x="572" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00ucxym_di" bpmnElement="Event_00ucxym">
+        <dc:Bounds x="572" y="219" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hcjj4p_di" bpmnElement="do_a">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14tzvkv_di" bpmnElement="do_b">
+        <dc:Bounds x="400" y="197" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00pstlf_di" bpmnElement="Event_00pstlf">
+        <dc:Bounds x="572" y="339" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19vnhb8_di" bpmnElement="do_c">
+        <dc:Bounds x="400" y="317" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

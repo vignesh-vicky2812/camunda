@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1y5kss3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+  <bpmn:process id="events_error_boundary_activity" name="Events - Error Boundary Activity" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_10rfiac</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_10rfiac" sourceRef="StartEvent_1" targetRef="generate_business_error" />
+    <bpmn:endEvent id="Event_10s5mz1">
+      <bpmn:incoming>Flow_19t2kv6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_19t2kv6" sourceRef="generate_business_error" targetRef="Event_10s5mz1" />
+    <bpmn:sequenceFlow id="Flow_05yyqj7" sourceRef="Event_0yk7df7" targetRef="managed_business_error" />
+    <bpmn:endEvent id="Event_0oie7j8">
+      <bpmn:incoming>Flow_0lkp9wc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0lkp9wc" sourceRef="managed_business_error" targetRef="Event_0oie7j8" />
+    <bpmn:scriptTask id="generate_business_error" name="Generate business error" scriptFormat="javascript">
+      <bpmn:incoming>Flow_10rfiac</bpmn:incoming>
+      <bpmn:outgoing>Flow_19t2kv6</bpmn:outgoing>
+      <bpmn:script>if (true) {
+  execution.setVariable("result", "Error");
+  throw new org.camunda.bpm.engine.delegate.BpmnError("ERRSERVICE01", "Error happening during script task");
+} else {
+  execution.setVariable("result", "Ok");
+}</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="managed_business_error" name="Managed business error">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="myErrorVariable" label="Error code" type="string" />
+          <camunda:formField id="myErrorMessageVariable" label="Error message" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05yyqj7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lkp9wc</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Event_0yk7df7" attachedToRef="generate_business_error">
+      <bpmn:outgoing>Flow_05yyqj7</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1uwc4ks" errorRef="Error_0sgrzdb" camunda:errorCodeVariable="myErrorVariable" camunda:errorMessageVariable="myErrorMessageVariable" />
+    </bpmn:boundaryEvent>
+    <bpmn:textAnnotation id="TextAnnotation_1il9uon">
+      <bpmn:text>If no error is set, catch all errors otherwise catch the specific error code setted</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1nle333" sourceRef="Event_0yk7df7" targetRef="TextAnnotation_1il9uon" />
+  </bpmn:process>
+  <bpmn:error id="Error_0sgrzdb" name="Activity error" errorCode="ERRSERVICE01" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="events_error_boundary_activity">
+      <bpmndi:BPMNShape id="TextAnnotation_1il9uon_di" bpmnElement="TextAnnotation_1il9uon">
+        <dc:Bounds x="170" y="180" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_10rfiac_di" bpmnElement="Flow_10rfiac">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19t2kv6_di" bpmnElement="Flow_19t2kv6">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="582" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05yyqj7_di" bpmnElement="Flow_05yyqj7">
+        <di:waypoint x="380" y="175" />
+        <di:waypoint x="380" y="240" />
+        <di:waypoint x="430" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lkp9wc_di" bpmnElement="Flow_0lkp9wc">
+        <di:waypoint x="530" y="240" />
+        <di:waypoint x="582" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mm7ksn_di" bpmnElement="generate_business_error">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t9awo9_di" bpmnElement="managed_business_error">
+        <dc:Bounds x="430" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0oie7j8_di" bpmnElement="Event_0oie7j8">
+        <dc:Bounds x="582" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10s5mz1_di" bpmnElement="Event_10s5mz1">
+        <dc:Bounds x="582" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1nle333_di" bpmnElement="Association_1nle333">
+        <di:waypoint x="363" y="163" />
+        <di:waypoint x="311" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_06mt2gd_di" bpmnElement="Event_0yk7df7">
+        <dc:Bounds x="362" y="139" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="346" y="242" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

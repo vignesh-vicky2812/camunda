@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_13669nn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+  <bpmn:process id="events_timer" name="Events - Timer" isExecutable="true" camunda:versionTag="v1.0">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0idtyjd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0idtyjd" sourceRef="StartEvent_1" targetRef="user_task_A" />
+    <bpmn:userTask id="user_task_A" name="User Task A">
+      <bpmn:incoming>Flow_0idtyjd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v0txqp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0671e9m">
+      <bpmn:incoming>Flow_1v0txqp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1v0txqp" sourceRef="user_task_A" targetRef="Event_0671e9m" />
+    <bpmn:endEvent id="Event_1hbqjvr">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="Javascript">var system = java.lang.System;
+system.out.println('Process instance ended by timer event!');</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1g7dz57</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1g7dz57" sourceRef="Event_0mnu4z9" targetRef="Event_1hbqjvr" />
+    <bpmn:boundaryEvent id="Event_0mnu4z9" attachedToRef="user_task_A">
+      <bpmn:outgoing>Flow_1g7dz57</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0hu7gm0">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:textAnnotation id="TextAnnotation_0x6g88u">
+      <bpmn:text>Release the task after 10 secondes
+
+(Complete line = interrupting event)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_090f5d2" sourceRef="Event_0mnu4z9" targetRef="TextAnnotation_0x6g88u" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="events_timer">
+      <bpmndi:BPMNShape id="TextAnnotation_0x6g88u_di" bpmnElement="TextAnnotation_0x6g88u">
+        <dc:Bounds x="120" y="191" width="210" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0idtyjd_di" bpmnElement="Flow_0idtyjd">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v0txqp_di" bpmnElement="Flow_1v0txqp">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="442" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g7dz57_di" bpmnElement="Flow_1g7dz57">
+        <di:waypoint x="370" y="175" />
+        <di:waypoint x="370" y="240" />
+        <di:waypoint x="442" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c00zby_di" bpmnElement="user_task_A">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hbqjvr_di" bpmnElement="Event_1hbqjvr">
+        <dc:Bounds x="442" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0671e9m_di" bpmnElement="Event_0671e9m">
+        <dc:Bounds x="442" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_090f5d2_di" bpmnElement="Association_090f5d2">
+        <di:waypoint x="354" y="166" />
+        <di:waypoint x="308" y="191" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_01619rx_di" bpmnElement="Event_0mnu4z9">
+        <dc:Bounds x="352" y="139" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
